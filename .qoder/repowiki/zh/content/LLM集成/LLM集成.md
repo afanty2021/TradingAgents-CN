@@ -2,15 +2,23 @@
 
 <cite>
 **本文档引用的文件**  
-- [dashscope_adapter.py](file://tradingagents/llm_adapters/dashscope_adapter.py)
-- [deepseek_adapter.py](file://tradingagents/llm_adapters/deepseek_adapter.py)
-- [openai_compatible_base.py](file://tradingagents/llm_adapters/openai_compatible_base.py)
+- [dashscope_adapter.py](file://tradingagents/llm_adapters/dashscope_adapter.py) - *新增了DashScope适配器实现*
+- [deepseek_adapter.py](file://tradingagents/llm_adapters/deepseek_adapter.py) - *更新了DeepSeek适配器实现*
+- [google_openai_adapter.py](file://tradingagents/llm_adapters/google_openai_adapter.py) - *新增了Google适配器实现*
+- [openai_compatible_base.py](file://tradingagents/llm_adapters/openai_compatible_base.py) - *更新了统一适配器基类*
 - [config_manager.py](file://tradingagents/config/config_manager.py)
 - [default_config.py](file://tradingagents/default_config.py)
 - [demo_deepseek_analysis.py](file://examples/demo_deepseek_analysis.py)
 - [demo_dashscope.py](file://examples/dashscope_examples/demo_dashscope.py)
-- [google_openai_adapter.py](file://tradingagents/llm_adapters/google_openai_adapter.py)
 </cite>
+
+## 更新摘要
+**变更内容**   
+- 新增了主流LLM提供商的适配器实现细节，包括DashScope、DeepSeek和Google
+- 更新了统一适配器接口设计，增强了对不同提供商的支持
+- 扩展了支持的LLM提供商列表，增加了详细的模型配置信息
+- 更新了配置方法与示例，提供了更完整的代码示例
+- 增强了投资分析场景下的性能与成本分析
 
 ## 目录
 1. [引言](#引言)
@@ -35,9 +43,9 @@
 
 这些提供商通过统一的适配器接口集成到系统中，用户可以根据需求和成本考虑选择最适合的模型服务。
 
-**Section sources**
-- [openai_compatible_base.py](file://tradingagents/llm_adapters/openai_compatible_base.py#L410-L421)
-- [google_openai_adapter.py](file://tradingagents/llm_adapters/google_openai_adapter.py#L249-L279)
+**本节来源**  
+- [openai_compatible_base.py](file://tradingagents/llm_adapters/openai_compatible_base.py#L295-L413) - *更新了统一适配器基类*
+- [google_openai_adapter.py](file://tradingagents/llm_adapters/google_openai_adapter.py#L231-L350) - *新增了Google适配器实现*
 
 ## 统一适配器接口设计
 系统采用适配器模式设计，为不同LLM提供商提供统一的接口访问。核心设计原理如下：
@@ -75,9 +83,8 @@ OpenAICompatibleBase <|-- ChatQianfanOpenAI
 OpenAICompatibleBase <|-- ChatCustomOpenAI
 ```
 
-**Diagram sources**
-- [openai_compatible_base.py](file://tradingagents/llm_adapters/openai_compatible_base.py#L47-L74)
-- [deepseek_adapter.py](file://tradingagents/llm_adapters/deepseek_adapter.py#L249-L279)
+**本图来源**  
+- [openai_compatible_base.py](file://tradingagents/llm_adapters/openai_compatible_base.py#L31-L155) - *更新了统一适配器基类*
 
 ### 统一工厂函数
 系统提供`create_openai_compatible_llm`工厂函数，用于创建不同提供商的LLM实例：
@@ -96,12 +103,12 @@ CreateCustom --> ReturnInstance
 ReturnInstance --> End([完成])
 ```
 
-**Diagram sources**
-- [openai_compatible_base.py](file://tradingagents/llm_adapters/openai_compatible_base.py#L410-L421)
+**本图来源**  
+- [openai_compatible_base.py](file://tradingagents/llm_adapters/openai_compatible_base.py#L381-L413) - *更新了统一工厂函数*
 - [config_manager.py](file://tradingagents/config/config_manager.py#L652-L690)
 
-**Section sources**
-- [openai_compatible_base.py](file://tradingagents/llm_adapters/openai_compatible_base.py#L410-L421)
+**本节来源**  
+- [openai_compatible_base.py](file://tradingagents/llm_adapters/openai_compatible_base.py#L381-L413) - *更新了统一工厂函数*
 - [config_manager.py](file://tradingagents/config/config_manager.py#L652-L690)
 
 ## 配置方法与示例
@@ -121,9 +128,9 @@ DEEPSEEK_ENABLED=true
 
 ```python
 # Python代码中使用
-from tradingagents.llm_adapters.deepseek_direct_adapter import create_deepseek_direct_adapter
+from tradingagents.llm_adapters.deepseek_adapter import create_deepseek_llm
 
-llm = create_deepseek_direct_adapter(
+llm = create_deepseek_llm(
     model="deepseek-chat",
     temperature=0.1,
     max_tokens=1000
@@ -158,16 +165,16 @@ GOOGLE_API_KEY=your_api_key_here
 from tradingagents.llm_adapters.google_openai_adapter import create_google_openai_llm
 
 llm = create_google_openai_llm(
-    model="gemini-2.5-flash",
+    model="gemini-2.5-flash-lite-preview-06-17",
     temperature=0.1,
     max_tokens=2000
 )
 ```
 
-**Section sources**
+**本节来源**  
 - [demo_deepseek_analysis.py](file://examples/demo_deepseek_analysis.py#L113-L158)
 - [demo_dashscope.py](file://examples/dashscope_examples/demo_dashscope.py#L60-L93)
-- [google_openai_adapter.py](file://tradingagents/llm_adapters/google_openai_adapter.py#L249-L279)
+- [google_openai_adapter.py](file://tradingagents/llm_adapters/google_openai_adapter.py#L231-L350) - *新增了Google适配器实现*
 
 ## 投资分析场景下的性能与成本
 ### 性能表现
@@ -193,13 +200,13 @@ CalculateCost --> StoreRecord["存储使用记录"]
 StoreRecord --> End([LLM调用完成])
 ```
 
-**Diagram sources**
+**本图来源**  
 - [config_manager.py](file://tradingagents/config/config_manager.py#L652-L690)
-- [dashscope_adapter.py](file://tradingagents/llm_adapters/dashscope_adapter.py#L147-L173)
+- [dashscope_adapter.py](file://tradingagents/llm_adapters/dashscope_adapter.py#L245-L293) - *新增了DashScope适配器实现*
 
 系统支持按提供商、模型、会话等维度统计使用情况和成本，帮助用户优化LLM使用策略。
 
-**Section sources**
+**本节来源**  
 - [config_manager.py](file://tradingagents/config/config_manager.py#L652-L690)
 - [test_config_management.py](file://tests/test_config_management.py#L227-L270)
 
@@ -223,8 +230,8 @@ ReturnResult --> End([完成])
 ReturnFallback --> End
 ```
 
-**Diagram sources**
-- [google_openai_adapter.py](file://tradingagents/llm_adapters/google_openai_adapter.py#L47-L74)
+**本图来源**  
+- [google_openai_adapter.py](file://tradingagents/llm_adapters/google_openai_adapter.py#L52-L77) - *新增了Google适配器实现*
 - [memory.py](file://tradingagents/agents/utils/memory.py#L524-L547)
 
 ### 降级策略
@@ -233,8 +240,8 @@ ReturnFallback --> End
 3. **空向量返回**：在embedding异常时，返回空向量以保证系统继续运行
 4. **不截断重试**：对于长度限制错误，直接降级而不尝试截断重试，以保证分析准确性
 
-**Section sources**
-- [google_openai_adapter.py](file://tradingagents/llm_adapters/google_openai_adapter.py#L47-L74)
+**本节来源**  
+- [google_openai_adapter.py](file://tradingagents/llm_adapters/google_openai_adapter.py#L52-L77) - *新增了Google适配器实现*
 - [memory.py](file://tradingagents/agents/utils/memory.py#L524-L547)
 
 ## 结论
