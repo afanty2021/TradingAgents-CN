@@ -116,7 +116,7 @@ GOOGLE_ENABLED=true
 # 🤖 OpenAI (可选 - 通用能力强，成本较高)
 OPENAI_API_KEY=your_openai_api_key
 OPENAI_ENABLED=true
-```
+
 
 ### 🔑 API密钥获取
 
@@ -130,7 +130,7 @@ OPENAI_ENABLED=true
 
 ### 📊 可选配置
 
-```bash
+bash
 # === 数据源配置 (可选) ===
 TUSHARE_TOKEN=your_tushare_token          # A股数据增强
 FINNHUB_API_KEY=your_finnhub_key          # 美股数据
