@@ -32,7 +32,7 @@ try:
 except ImportError:
     ENHANCED_FETCHER_AVAILABLE = False
 
-logger = logging.getLogger(__name__)
+logger = get_logger('stock_data_service')
 
 class StockDataService:
     """
@@ -40,12 +40,13 @@ class StockDataService:
     实现完整的降级机制：MongoDB -> Tushare数据接口 -> 缓存 -> 错误处理
     """
     
-    def __init__(self):
+    def __init__(self) -> None:
+        """初始化股票数据服务"""
         self.db_manager = None
         self._init_services()
     
-    def _init_services(self):
-        """初始化服务"""
+    def _init_services(self) -> None:
+        """初始化数据库管理器和相关服务"""
         # 尝试初始化数据库管理器
         if DATABASE_MANAGER_AVAILABLE:
             try:

@@ -33,7 +33,7 @@ except ImportError:
     TOKEN_TRACKING_ENABLED = False
     logger.warning("⚠️ Token跟踪功能未启用")
 
-def translate_analyst_labels(text):
+def translate_analyst_labels(text: str) -> str:
     """将分析师的英文标签转换为中文"""
     if not text:
         return text

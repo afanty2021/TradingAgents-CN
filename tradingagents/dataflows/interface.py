@@ -1,9 +1,9 @@
-from typing import Annotated, Dict
+from typing import Annotated, Dict, Optional, List, Any
 import time
 import os
 from .reddit_utils import fetch_top_from_category
 from .chinese_finance_utils import get_chinese_social_sentiment
-from .googlenews_utils import *
+from .googlenews_utils import get_google_finance_news, search_news_by_stock
 from .finnhub_utils import get_data_in_range
 
 # 导入统一日志系统
@@ -32,18 +32,21 @@ except ImportError as e:
 
 # 尝试导入yfinance相关模块，如果失败则跳过
 try:
-    from .yfin_utils import *
+    from .yfin_utils import get_yahoo_stock_data, get_yahoo_stock_info
     YFIN_AVAILABLE = True
 except ImportError as e:
     logger.warning(f"⚠️ yfinance工具不可用: {e}")
     YFIN_AVAILABLE = False
+    get_yahoo_stock_data = None
+    get_yahoo_stock_info = None
 
 try:
-    from .stockstats_utils import *
+    from .stockstats_utils import calculate_technical_indicators
     STOCKSTATS_AVAILABLE = True
 except ImportError as e:
     logger.warning(f"⚠️ stockstats工具不可用: {e}")
     STOCKSTATS_AVAILABLE = False
+    calculate_technical_indicators = None
 from dateutil.relativedelta import relativedelta
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime

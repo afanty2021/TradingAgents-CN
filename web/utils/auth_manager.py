@@ -33,7 +33,7 @@ class AuthManager:
     
     def _ensure_users_file(self):
         """确保用户配置文件存在"""
-        self.users_file.parent.mkdir(exist_ok=True)
+        self.users_file.parent.mkdir(parents=True, exist_ok=True)
         
         if not self.users_file.exists():
             # 创建默认用户配置
